@@ -83,5 +83,33 @@ io.on('connection', (socket) => {
     });
     
     socket.on('change-status', (newStatus) => {
-        // --- 바로 이 부분의 오타를 수정했습니다 ---
-        const userId = Object.keys(connectedUsers).find(key => connectedUsers[key
+        // --- 바로 이 부분의 코드를 완전하게 수정했습니다 ---
+        const userId = Object.keys(connectedUsers).find(key => connectedUsers[key].socketId === socket.id);
+        if (userId) {
+            connectedUsers[userId].status = newStatus;
+            io.emit('online-users-update', connectedUsers);
+        }
+    });
+
+    socket.on('send-poke', ({ targetUserId, message, senderName }) => {
+        const target = connectedUsers[targetUserId];
+        if (target) {
+            io.to(target.socketId).emit('receive-poke', { message, senderName });
+        }
+    });
+
+    socket.on('disconnect', () => {
+        const userId = Object.keys(connectedUsers).find(key => connectedUsers[key].socketId === socket.id);
+        if (userId) {
+            delete connectedUsers[userId];
+            io.emit('online-users-update', connectedUsers);
+        }
+    });
+});
+
+const PORT = process.env.PORT || 3000;
+server.listen(PORT, () => {
+  console.log(`Server listening on port ${PORT}`);
+});
+
+module.exports = server;
