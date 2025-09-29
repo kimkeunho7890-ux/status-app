@@ -14,6 +14,8 @@ function createLoginWindow() {
     height: 600,
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
+      contextIsolation: true,
+      nodeIntegration: false
     },
   });
   loginWindow.loadURL(SERVER_URL);
@@ -25,6 +27,8 @@ function createDashboardWindow() {
     height: 800,
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
+      contextIsolation: true,
+      nodeIntegration: false
     },
   });
   dashboardWindow.loadURL(`${SERVER_URL}/dashboard.html`);
@@ -40,6 +44,8 @@ function createAdminWindow() {
         height: 700,
         webPreferences: {
             preload: path.join(__dirname, 'preload.js'),
+            contextIsolation: true,
+            nodeIntegration: false
         },
     });
     adminWindow.loadURL(`${SERVER_URL}/admin.html`);
@@ -55,7 +61,9 @@ function createPopup(data) {
         transparent: true, 
         alwaysOnTop: true, 
         webPreferences: {
-            preload: path.join(__dirname, 'public/preload.js'),
+            preload: path.join(__dirname, 'preload.js'),
+            contextIsolation: true,
+            nodeIntegration: false
         },
     });
     popup.loadFile(path.join(__dirname, 'public/popup.html'));
