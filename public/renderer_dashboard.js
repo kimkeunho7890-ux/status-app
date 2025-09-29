@@ -1,9 +1,9 @@
-const socket = io("https://status-app-server.onrender.com/");
+const socket = io("https://status-app-server.onrender.com");
 const userListDiv = document.getElementById('user-list');
 
 let currentUserId = null;
 let currentUserName = null;
-let allUsers = []; 
+let allUsers = [];
 
 document.addEventListener('DOMContentLoaded', async () => {
     try {
@@ -51,7 +51,6 @@ document.querySelectorAll('.status-btn').forEach(button => {
 });
 
 userListDiv.addEventListener('click', (e) => {
-    // 클릭된 요소 또는 그 부모가 .poke-btn 클래스를 가졌는지 확인
     const pokeButton = e.target.closest('.poke-btn');
     if (pokeButton) {
         const targetUserId = pokeButton.dataset.target;
@@ -61,7 +60,6 @@ userListDiv.addEventListener('click', (e) => {
         }
     }
 });
-
 
 function sortAndRenderUsers(onlineUsers = {}) {
     allUsers.sort((a, b) => {
@@ -85,8 +83,6 @@ function sortAndRenderUsers(onlineUsers = {}) {
     });
 }
 
-
-// 개별 사용자 카드를 생성하는 함수
 function createUserCard(user, statusData) {
     const userDiv = document.createElement('div');
     userDiv.className = 'user-card';
@@ -95,12 +91,8 @@ function createUserCard(user, statusData) {
     const status = statusData ? statusData.status : 'Offline';
 
     let pokeButtonsHTML = '';
-    // 온라인 상태인 다른 사용자에게만 말 걸기 버튼 표시
     if (currentUserId && user.id !== currentUserId && statusData) {
-        // 카카오톡 로고 SVG 아이콘
         const kakaoSVG = `<svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg"><path d="M256 464c-114.9 0-208-79.3-208-176.6S141.1 110.8 256 110.8s208 79.3 208 176.6S370.9 464 256 464zM168.1 228.4c-11 0-20-9-20-20s9-20 20-20 20 9 20 20-9 20-20 20zm175.8 0c-11 0-20-9-20-20s9-20 20-20 20 9 20 20-9 20-20 20z"></path></svg>`;
-        
-        // '담타' 버튼 삭제, '카톡' 버튼을 로고로 변경
         pokeButtonsHTML = `
             <button class="poke-btn" data-target="${user.id}" data-message="카톡확인좀" title="카톡 확인 요청">
                 ${kakaoSVG}
@@ -123,5 +115,4 @@ function getStatusClass(status) {
         case '점심': return 'name-lunch';
         default: return 'name-offline';
     }
-
 }

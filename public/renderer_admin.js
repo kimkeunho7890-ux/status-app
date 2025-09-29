@@ -7,7 +7,6 @@ form.addEventListener('submit', async (e) => {
     const name = document.getElementById('name').value;
     const password = document.getElementById('password').value;
 
-    // --- 이 주소도 전체 경로로 수정 ---
     const response = await fetch('https://status-app-server.onrender.com/register', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },

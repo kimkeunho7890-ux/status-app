@@ -21,14 +21,13 @@ button {
     transition: background-color 0.2s;
 }
 
-/* --- 상태 변경 버튼 (가로 배열로 수정) --- */
 #status-controls {
     margin-bottom: 10px;
     padding-bottom: 10px;
     border-bottom: 1px solid #eee;
     display: flex;
-    flex-direction: row; /* 세로 -> 가로 배열로 변경 */
-    justify-content: center; /* 가운데 정렬 */
+    flex-direction: row;
+    justify-content: center;
     gap: 8px; 
 }
 .status-btn {
@@ -54,7 +53,6 @@ button {
 }
 .status-btn[data-status="휴게"]:hover { background-color: #e0a800; }
 
-/* --- 사용자 목록 --- */
 #user-list { display: flex; flex-direction: column; gap: 8px; }
 .user-card {
     display: flex;
@@ -83,7 +81,6 @@ button {
 .name-lunch { color: #dc3545; }
 .name-offline { color: #adb5bd; }
 
-/* --- 카카오톡 로고 버튼 --- */
 .poke-btn {
     background: none;
     border: none;
@@ -107,7 +104,6 @@ button {
     opacity: 1;
 }
 
-/* 팝업 */
 .popup-body { background-color: transparent; }
 .speech-bubble {
     position: relative; background: #007bff; color: white; border-radius: .4em;

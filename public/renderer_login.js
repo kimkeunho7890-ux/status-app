@@ -6,7 +6,6 @@ form.addEventListener('submit', async (e) => {
     const userId = document.getElementById('userId').value;
     const password = document.getElementById('password').value;
 
-    // --- 바로 이 주소를 수정해야 합니다 ---
     const response = await fetch('https://status-app-server.onrender.com/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
