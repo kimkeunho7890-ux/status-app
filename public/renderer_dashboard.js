@@ -1,4 +1,4 @@
-const socket = io("http://192.168.0.155:3000");
+const socket = io("https://status-app-server.onrender.com/");
 const userListDiv = document.getElementById('user-list');
 
 let currentUserId = null;
@@ -17,7 +17,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     try {
-        const response = await fetch('http://192.168.0.155:3000/all-users');
+        const response = await fetch('https://status-app-server.onrender.com/all-users');
         const data = await response.json();
         
         if (data.success && data.users && data.users.length > 0) {
@@ -123,4 +123,5 @@ function getStatusClass(status) {
         case '점심': return 'name-lunch';
         default: return 'name-offline';
     }
+
 }
