@@ -6,6 +6,7 @@ form.addEventListener('submit', async (e) => {
     const userId = document.getElementById('userId').value;
     const password = document.getElementById('password').value;
 
+    // --- 바로 이 주소를 수정해야 합니다 ---
     const response = await fetch('https://status-app-server.onrender.com/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -16,7 +17,6 @@ form.addEventListener('submit', async (e) => {
 
     if (result.success) {
         errorMessage.textContent = '';
-        // isAdmin 정보까지 객체로 전달
         window.electronAPI.loginSuccess({ 
             userId: result.userId, 
             name: result.name,
@@ -25,5 +25,4 @@ form.addEventListener('submit', async (e) => {
     } else {
         errorMessage.textContent = result.message;
     }
-
 });

@@ -7,7 +7,8 @@ form.addEventListener('submit', async (e) => {
     const name = document.getElementById('name').value;
     const password = document.getElementById('password').value;
 
-    const response = await fetch('/register', {
+    // --- 이 주소도 전체 경로로 수정 ---
+    const response = await fetch('https://status-app-server.onrender.com/register', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ userId, name, password })
@@ -19,7 +20,7 @@ form.addEventListener('submit', async (e) => {
 
     if (result.success) {
         messageArea.className = 'success';
-        form.reset(); // 성공 시 입력 필드 초기화
+        form.reset();
     } else {
         messageArea.className = 'error';
     }
