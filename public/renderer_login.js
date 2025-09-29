@@ -6,7 +6,7 @@ form.addEventListener('submit', async (e) => {
     const userId = document.getElementById('userId').value;
     const password = document.getElementById('password').value;
 
-    const response = await fetch('http://localhost:3000/login', {
+    const response = await fetch('https://status-app-server.onrender.com/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ userId, password })
@@ -25,4 +25,5 @@ form.addEventListener('submit', async (e) => {
     } else {
         errorMessage.textContent = result.message;
     }
+
 });
