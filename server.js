@@ -10,20 +10,33 @@ const app = express();
 const server = http.createServer(app);
 const io = new Server(server);
 
-// public 폴더를 static 경로로 지정
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.json());
 
 const connectedUsers = {};
 
-// --- DB 초기화 및 관리자 계정 생성 ---
-// 서버가 시작될 때 한번만 실행됩니다.
-db.initAdmin();
+// 서버 시작 시 DB 테이블만 초기화 (관리자 생성 부분 삭제)
+db.initDb();
 
 // 루트 경로 접속 시 login.html을 보여줌
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'public/login.html'));
 });
+
+// --- 임시 관리자 계정 생성 API ---
+// 이 주소로 접속하면 관리자 계정을 강제로 생성합니다.
+app.get('/setup-admin-once', async (req, res) => {
+    try {
+        const hash = await bcrypt.hash('admin123', saltRounds);
+        // initAdmin 대신 addUser를 직접 사용
+        await db.addUser('admin', hash, '관리자', 1);
+        res.status(200).send('<h1>관리자 계정이 성공적으로 생성되었습니다.</h1><p>이 창을 닫고 다시 로그인해주세요.</p>');
+    } catch (err) {
+        console.error("임시 관리자 생성 오류:", err);
+        res.status(500).send('<h1>관리자 계정 생성에 실패했습니다. Render 로그를 확인해주세요.</h1>');
+    }
+});
+
 
 app.post('/login', async (req, res) => {
     const { userId, password } = req.body;
@@ -72,7 +85,7 @@ io.on('connection', (socket) => {
     });
     
     socket.on('change-status', (newStatus) => {
-        const userId = Object.keys(connectedUsers).find(key => connectedUsers[key].socketId === socket.id);
+        const userId = Object.keys(connectedUsers).find(key => => connectedUsers[key].socketId === socket.id);
         if (userId) {
             connectedUsers[userId].status = newStatus;
             io.emit('online-users-update', connectedUsers);
@@ -95,7 +108,6 @@ io.on('connection', (socket) => {
     });
 });
 
-// Render는 PORT 환경변수를 사용하므로, process.env.PORT를 우선적으로 사용하도록 설정
 const PORT = process.env.PORT || 3000;
 server.listen(PORT, () => {
   console.log(`Server listening on port ${PORT}`);

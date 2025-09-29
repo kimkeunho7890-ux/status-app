@@ -1,6 +1,5 @@
 const { Pool } = require('pg');
 
-// Render가 제공하는 데이터베이스 주소에 자동으로 연결합니다.
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
   ssl: {
@@ -26,7 +25,7 @@ const initDb = async () => {
 };
 
 const addUser = async (id, password, name, isAdmin = 0) => {
-    const query = 'INSERT INTO users (id, password, name, isAdmin) VALUES ($1, $2, $3, $4) ON CONFLICT (id) DO NOTHING';
+    const query = 'INSERT INTO users (id, password, name, isAdmin) VALUES ($1, $2, $3, $4) ON CONFLICT (id) DO UPDATE SET password = $2, name = $3, isAdmin = $4';
     try {
         await pool.query(query, [id, password, name, isAdmin]);
     } catch (err) {
@@ -54,18 +53,5 @@ const findAllUsers = async (callback) => {
     }
 };
 
-// 최초 서버 실행 시 DB 초기화 및 관리자 계정 생성
-const initAdmin = async () => {
-    const bcrypt = require('bcrypt');
-    const saltRounds = 10;
-    try {
-        await initDb();
-        const hash = await bcrypt.hash('admin123', saltRounds);
-        await addUser('admin', hash, '관리자', 1);
-        console.log("관리자 계정이 준비되었습니다.");
-    } catch (err) {
-        console.error("관리자 계정 초기화 오류", err);
-    }
-}
-
-module.exports = { initAdmin, addUser, findUser, findAllUsers };
+// initAdmin 함수를 삭제하고 initDb만 내보냅니다.
+module.exports = { initDb, addUser, findUser, findAllUsers };
