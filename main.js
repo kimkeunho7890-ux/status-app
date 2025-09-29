@@ -7,7 +7,7 @@ let dashboardWindow;
 let adminWindow;
 let currentUser;
 
-const SERVER_URL = 'http://192.168.0.155:3000';
+const SERVER_URL = 'https://status-app-server.onrender.com/';
 
 function createLoginWindow() {
   loginWindow = new BrowserWindow({
@@ -88,4 +88,5 @@ ipcMain.handle('get-user-info', async (event) => {
 });
 ipcMain.on('open-popup', (event, data) => {
     createPopup(data);
+
 });
