@@ -1,13 +1,13 @@
 const { app, BrowserWindow, ipcMain } = require('electron');
 const path = require('path');
-const server = require('./server'); 
+// const server = require('./server');  // <-- 이 줄을 삭제해야 합니다.
 
 let loginWindow;
 let dashboardWindow;
 let adminWindow;
 let currentUser;
 
-const SERVER_URL = 'https://status-app-server.onrender.com/';
+const SERVER_URL = 'https://status-app-server.onrender.com';
 
 function createLoginWindow() {
   loginWindow = new BrowserWindow({
@@ -22,7 +22,7 @@ function createLoginWindow() {
 
 function createDashboardWindow() {
     dashboardWindow = new BrowserWindow({
-    width: 180, // <<-- 창 폭을 180으로 수정
+    width: 180,
     height: 800,
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
@@ -35,7 +35,6 @@ function createDashboardWindow() {
   });
 }
 
-// ... 이하 나머지 코드는 이전과 동일합니다 ...
 function createAdminWindow() {
     adminWindow = new BrowserWindow({
         width: 600,
@@ -57,7 +56,7 @@ function createPopup(data) {
         transparent: true, 
         alwaysOnTop: true, 
         webPreferences: {
-            preload: path.join(__dirname, 'preload.js'),
+            preload: path.join(__dirname, 'public/preload.js'),
         },
     });
     popup.loadFile(path.join(__dirname, 'public/popup.html'));
@@ -88,5 +87,4 @@ ipcMain.handle('get-user-info', async (event) => {
 });
 ipcMain.on('open-popup', (event, data) => {
     createPopup(data);
-
 });
