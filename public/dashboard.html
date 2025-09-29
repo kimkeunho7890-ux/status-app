@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>근무 현황</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div id="status-controls">
+            <button class="status-btn" data-status="근무중">근무중</button>
+            <button class="status-btn" data-status="점심">점심</button>
+            <button class="status-btn" data-status="휴게">휴게</button>
+        </div>
+        <div id="user-list">
+            </div>
+    </div>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="renderer_dashboard.js"></script>
+</body>
+</html>

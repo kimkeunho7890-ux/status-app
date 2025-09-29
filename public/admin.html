@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>관리자 페이지</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>사용자 등록</h1>
+        <form id="register-form">
+            <input type="text" id="userId" placeholder="새 아이디" required>
+            <input type="text" id="name" placeholder="이름" required>
+            <input type="password" id="password" placeholder="새 비밀번호" required>
+            <button type="submit">등록하기</button>
+        </form>
+        <p id="message-area" class=""></p>
+    </div>
+    <script src="renderer_admin.js"></script>
+</body>
+</html>
