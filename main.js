@@ -1,6 +1,5 @@
 const { app, BrowserWindow, ipcMain } = require('electron');
 const path = require('path');
-// const server = require('./server');  // <-- 이 줄을 삭제해야 합니다.
 
 let loginWindow;
 let dashboardWindow;
