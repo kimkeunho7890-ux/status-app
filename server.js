@@ -15,7 +15,7 @@ app.use(express.json());
 
 const connectedUsers = {};
 
-// 서버 시작 시 DB 테이블만 초기화 (관리자 생성 부분 삭제)
+// 서버 시작 시 DB 테이블만 초기화
 db.initDb();
 
 // 루트 경로 접속 시 login.html을 보여줌
@@ -23,12 +23,10 @@ app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'public/login.html'));
 });
 
-// --- 임시 관리자 계정 생성 API ---
-// 이 주소로 접속하면 관리자 계정을 강제로 생성합니다.
+// 임시 관리자 계정 생성 API
 app.get('/setup-admin-once', async (req, res) => {
     try {
         const hash = await bcrypt.hash('admin123', saltRounds);
-        // initAdmin 대신 addUser를 직접 사용
         await db.addUser('admin', hash, '관리자', 1);
         res.status(200).send('<h1>관리자 계정이 성공적으로 생성되었습니다.</h1><p>이 창을 닫고 다시 로그인해주세요.</p>');
     } catch (err) {
@@ -85,32 +83,5 @@ io.on('connection', (socket) => {
     });
     
     socket.on('change-status', (newStatus) => {
-        const userId = Object.keys(connectedUsers).find(key => => connectedUsers[key].socketId === socket.id);
-        if (userId) {
-            connectedUsers[userId].status = newStatus;
-            io.emit('online-users-update', connectedUsers);
-        }
-    });
-
-    socket.on('send-poke', ({ targetUserId, message, senderName }) => {
-        const target = connectedUsers[targetUserId];
-        if (target) {
-            io.to(target.socketId).emit('receive-poke', { message, senderName });
-        }
-    });
-
-    socket.on('disconnect', () => {
-        const userId = Object.keys(connectedUsers).find(key => connectedUsers[key].socketId === socket.id);
-        if (userId) {
-            delete connectedUsers[userId];
-            io.emit('online-users-update', connectedUsers);
-        }
-    });
-});
-
-const PORT = process.env.PORT || 3000;
-server.listen(PORT, () => {
-  console.log(`Server listening on port ${PORT}`);
-});
-
-module.exports = server;
+        // --- 바로 이 부분의 오타를 수정했습니다 ---
+        const userId = Object.keys(connectedUsers).find(key => connectedUsers[key
